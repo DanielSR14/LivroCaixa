@@ -1,0 +1,40 @@
+<Window x:Class="LivroCaixa.App.Views.CodigoRecuperacaoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Código de recuperação"
+        Width="520" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <TextBlock Text="Guarde seu código de recuperação" Style="{StaticResource Text.Title}" Margin="0,0,0,8" />
+        <TextBlock x:Name="TextoExplicacao" Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,0,0,16" />
+
+        <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Primary}"
+                BorderThickness="1.5" CornerRadius="12" Padding="16" Margin="0,0,0,12">
+            <TextBlock x:Name="TextoCodigo" FontFamily="Consolas" FontSize="26" FontWeight="SemiBold"
+                       Foreground="{StaticResource Brush.TextPrimary}" HorizontalAlignment="Center" />
+        </Border>
+
+        <Grid Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Copiar" Style="{StaticResource Button.Secondary}" Click="BotaoCopiar_Click" />
+            <Button Grid.Column="2" Content="Salvar em arquivo..." Style="{StaticResource Button.Secondary}" Click="BotaoSalvar_Click" />
+        </Grid>
+
+        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,16"
+                   Text="Anote em papel ou salve num local seguro, fora deste computador. Ele é mostrado só agora: depois não dá para ver de novo, apenas gerar um novo (em Configurações)." />
+
+        <TextBlock x:Name="TextoStatus" Style="{StaticResource Text.Caption}" Margin="0,0,0,8" Visibility="Collapsed" />
+
+        <CheckBox x:Name="CaixaGuardei" Content="Guardei o código em um lugar seguro" Margin="0,0,0,12"
+                  Checked="CaixaGuardei_Alterada" Unchecked="CaixaGuardei_Alterada" />
+        <Button x:Name="BotaoContinuar" Content="Continuar" Style="{StaticResource Button.Primary}"
+                IsEnabled="False" Click="BotaoContinuar_Click" />
+    </StackPanel>
+</Window>

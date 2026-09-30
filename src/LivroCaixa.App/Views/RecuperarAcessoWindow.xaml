@@ -1,0 +1,41 @@
+<Window x:Class="LivroCaixa.App.Views.RecuperarAcessoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Esqueci minha senha"
+        Width="440" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <TextBlock Text="Esqueci minha senha" Style="{StaticResource Text.Title}" Margin="0,0,0,4" />
+        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,20"
+                   Text="Use o código de recuperação que você guardou ao começar a usar o aplicativo para criar uma senha nova." />
+
+        <TextBlock Text="Nome de usuário" Style="{StaticResource Text.Field.Label}" />
+        <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,12"
+                 Text="{Binding NomeUsuario, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Text="Código de recuperação" Style="{StaticResource Text.Field.Label}" />
+        <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,12" CharacterCasing="Upper"
+                 FontFamily="Consolas" Text="{Binding CodigoRecuperacao, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Text="Nova senha" Style="{StaticResource Text.Field.Label}" />
+        <PasswordBox x:Name="CampoNovaSenha" Style="{StaticResource PasswordBox.Default}" Margin="0,0,0,12"
+                     PasswordChanged="CampoNovaSenha_PasswordChanged" />
+
+        <TextBlock Text="Confirmar nova senha" Style="{StaticResource Text.Field.Label}" />
+        <PasswordBox x:Name="CampoConfirmarSenha" Style="{StaticResource PasswordBox.Default}" Margin="0,0,0,8"
+                     PasswordChanged="CampoConfirmarSenha_PasswordChanged" />
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,12,0,0"
+                   Text="Perdeu também o código? Fale com o escritório de contabilidade." />
+
+        <Button Content="Criar nova senha" Style="{StaticResource Button.Primary}" IsDefault="True"
+                Command="{Binding RecuperarCommand}" Margin="0,16,0,0"
+                IsEnabled="{Binding EstaProcessando, Converter={StaticResource InverterBoolConverter}}" />
+    </StackPanel>
+</Window>

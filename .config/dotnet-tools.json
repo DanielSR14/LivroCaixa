@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-ef": {
+      "version": "8.0.10",
+      "commands": [
+        "dotnet-ef"
+      ],
+      "rollForward": false
+    },
+    "vpk": {
+      "version": "1.2.158",
+      "commands": [
+        "vpk"
+      ],
+      "rollForward": false
+    }
+  }
+}

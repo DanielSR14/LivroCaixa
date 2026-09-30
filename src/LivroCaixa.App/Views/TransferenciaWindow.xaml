@@ -1,0 +1,62 @@
+<Window x:Class="LivroCaixa.App.Views.TransferenciaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Transferir entre contas"
+        Width="460" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <svgc:SvgViewbox Source="/Assets/Icons/transferencia.svg" Width="22" Height="22" Margin="0,0,10,0" />
+            <TextBlock Text="Transferir entre contas" Style="{StaticResource Text.Title}" VerticalAlignment="Center" />
+        </StackPanel>
+        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,20"
+                   Text="Para dinheiro que só muda de lugar dentro da organização (ex: saque do banco para o caixa). Não conta como entrada nem como saída." />
+
+        <!-- Menos de duas contas: não há para onde transferir. -->
+        <TextBlock Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="0,0,0,8"
+                   Visibility="{Binding TemContasSuficientes, Converter={StaticResource BoolInvertidoParaVisibilidadeConverter}}"
+                   Text="Cadastre pelo menos duas contas (em Contas, na barra lateral) para poder transferir entre elas." />
+
+        <StackPanel Visibility="{Binding TemContasSuficientes, Converter={StaticResource BoolParaVisibilidadeConverter}}">
+            <TextBlock Text="De (conta de origem)" Style="{StaticResource Text.Field.Label}" />
+            <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                      ItemsSource="{Binding Contas}" DisplayMemberPath="Nome" SelectedItem="{Binding ContaOrigem}" />
+
+            <TextBlock Text="Para (conta de destino)" Style="{StaticResource Text.Field.Label}" />
+            <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                      ItemsSource="{Binding Contas}" DisplayMemberPath="Nome" SelectedItem="{Binding ContaDestino}" />
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Data" Style="{StaticResource Text.Field.Label}" />
+                    <DatePicker SelectedDate="{Binding Data}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Valor (R$)" Style="{StaticResource Text.Field.Label}" />
+                    <TextBox Style="{StaticResource TextBox.Default}"
+                             Text="{Binding ValorTexto, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Text="Descrição (opcional)" Style="{StaticResource Text.Field.Label}" />
+            <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,8"
+                     Text="{Binding Descricao, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                       Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+            <Button Content="Transferir" Style="{StaticResource Button.Primary}" IsDefault="True"
+                    Command="{Binding SalvarCommand}" Margin="0,16,0,0"
+                    IsEnabled="{Binding EstaSalvando, Converter={StaticResource InverterBoolConverter}}" />
+        </StackPanel>
+    </StackPanel>
+</Window>

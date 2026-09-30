@@ -1,0 +1,112 @@
+<Window x:Class="LivroCaixa.App.Views.ExportacaoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Exportar para o escritório"
+        Width="560" MinHeight="460" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolParaVisibilidade" />
+    </Window.Resources>
+
+    <StackPanel Margin="24">
+        <TextBlock Text="Exportar para o escritório" Style="{StaticResource Text.Title}" Margin="0,0,0,4" />
+        <TextBlock Text="Gera um arquivo .contabil com os lançamentos e comprovantes do período escolhido."
+                   Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,12" />
+
+        <Border Background="{StaticResource Brush.PrimaryTint}" CornerRadius="8" Padding="12,10" Margin="0,0,0,20">
+            <TextBlock Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Primary}" TextWrapping="Wrap">
+                O arquivo gerado <Run FontWeight="SemiBold">não é criptografado nem protegido por senha</Run> —
+                qualquer pessoa que abrir o arquivo consegue ver os lançamentos e comprovantes dele. Se for
+                enviar por e-mail, considere isso antes de anexar dados mais sensíveis.
+            </TextBlock>
+        </Border>
+
+        <StackPanel Visibility="{Binding CaminhoGerado, Converter={StaticResource TextoParaVisibilidadeInversoConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Mês" Style="{StaticResource Text.Field.Label}" />
+                    <ComboBox Style="{StaticResource ComboBox.Default}"
+                              ItemsSource="{Binding MesesDisponiveis}"
+                              DisplayMemberPath="Nome" SelectedValuePath="Numero"
+                              SelectedValue="{Binding Mes}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Ano" Style="{StaticResource Text.Field.Label}" />
+                    <ComboBox Style="{StaticResource ComboBox.Default}"
+                              ItemsSource="{Binding AnosDisponiveis}"
+                              SelectedItem="{Binding Ano}" />
+                </StackPanel>
+            </Grid>
+
+            <Button Content="Selecionar pasta e exportar" Style="{StaticResource Button.Primary}"
+                    Click="BotaoExportar_Click" Margin="0,24,0,0"
+                    IsEnabled="{Binding EstaExportando, Converter={StaticResource InverterBoolConverter}}" />
+        </StackPanel>
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}" Margin="0,16,0,0"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+        <StackPanel Visibility="{Binding CaminhoGerado, Converter={StaticResource TextoParaVisibilidadeConverter}}" Margin="0,16,0,0">
+            <TextBlock Text="Arquivo gerado com sucesso:" Style="{StaticResource Text.Body}" />
+            <TextBlock Text="{Binding CaminhoGerado}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,4,0,8" />
+            <Button Content="Abrir pasta" Style="{StaticResource Button.Secondary}"
+                    Click="BotaoAbrirPasta_Click" HorizontalAlignment="Left" />
+
+            <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,20,0,16" />
+
+            <TextBlock Text="Enviar por e-mail" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,4" />
+            <TextBlock Text="O arquivo gerado precisa ser anexado manualmente no seu cliente de e-mail — não é possível anexar automaticamente."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,12" />
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                    <TextBlock Text="Destinatário" Style="{StaticResource Text.Field.Label}" />
+                    <TextBox x:Name="TextoEmailDestinatario" Style="{StaticResource TextBox.Default}"
+                             Text="{Binding EmailDestinatario, Mode=OneWay}" IsReadOnly="True" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="Copiar" Style="{StaticResource Button.Secondary}"
+                        Click="BotaoCopiarDestinatario_Click" VerticalAlignment="Bottom" />
+            </Grid>
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                    <TextBlock Text="Assunto" Style="{StaticResource Text.Field.Label}" />
+                    <TextBox x:Name="TextoEmailAssunto" Style="{StaticResource TextBox.Default}"
+                             Text="{Binding EmailAssunto, Mode=OneWay}" IsReadOnly="True" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="Copiar" Style="{StaticResource Button.Secondary}"
+                        Click="BotaoCopiarAssunto_Click" VerticalAlignment="Bottom" />
+            </Grid>
+
+            <TextBlock Text="Corpo" Style="{StaticResource Text.Field.Label}" />
+            <TextBox x:Name="TextoEmailCorpo" Style="{StaticResource TextBox.Default}"
+                     Text="{Binding EmailCorpo, Mode=OneWay}" IsReadOnly="True"
+                     TextWrapping="Wrap" AcceptsReturn="True" Height="90"
+                     VerticalScrollBarVisibility="Auto" Margin="0,0,0,8" />
+            <Button Content="Copiar corpo" Style="{StaticResource Button.Secondary}"
+                    Click="BotaoCopiarCorpo_Click" HorizontalAlignment="Left" Margin="0,0,0,20" />
+
+            <Button Content="Exportar outro período" Style="{StaticResource Button.Secondary}"
+                    Command="{Binding NovaExportacaoCommand}" HorizontalAlignment="Left" />
+        </StackPanel>
+    </StackPanel>
+</Window>

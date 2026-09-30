@@ -1,0 +1,156 @@
+<Window x:Class="LivroCaixa.App.Views.FaqWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Perguntas frequentes"
+        Width="560" Height="640"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Perguntas frequentes" Style="{StaticResource Text.Title}" Margin="0,0,0,4" />
+            <TextBlock Text="Um resumo simples de como usar o app, sem termos técnicos."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{StaticResource Brush.SurfaceBackground}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource Brush.Border}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="12" />
+                        <Setter Property="Padding" Value="16" />
+                        <Setter Property="Margin" Value="0,0,0,10" />
+                        <Setter Property="Effect" Value="{StaticResource Effect.CardShadow}" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Preciso entender de contabilidade pra usar o app?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Não. Você só precisa saber se foi uma entrada (dinheiro que chegou) ou uma saída
+                            (dinheiro que saiu). O app organiza tudo isso e transforma no que a contabilidade
+                            precisa — você nunca vai ver termos como "débito", "crédito" ou "plano de contas".
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Como registro uma entrada ou uma saída?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Na tela "Lançamentos", clique em "+ Novo lançamento", escolha se é entrada ou
+                            saída, preencha o valor, a data, a categoria e a conta, e pronto.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="O que é uma &quot;conta&quot; dentro do app?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            É de onde o dinheiro saiu ou entrou: o caixa da empresa, uma conta do banco, um
+                            cartão, etc. Você pode cadastrar quantas contas precisar em "Contas", na barra lateral.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Como anexo a nota fiscal ou o comprovante de um lançamento?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Ao criar ou editar um lançamento, tem um botão pra anexar arquivo — pode ser uma
+                            foto, PDF ou imagem do comprovante. Ele fica guardado junto com aquele lançamento.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Errei um lançamento, como corrijo?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Na tela "Lançamentos", clique no ícone de lápis (editar) ao lado do lançamento e
+                            corrija o que precisar.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Posso apagar um lançamento? Ele some pra sempre?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Você pode excluir um lançamento do mês atual, mas ele não some de vez: fica
+                            marcado como excluído, visível numa lista separada, e deixa de contar nos
+                            cálculos. Isso existe pra manter tudo rastreável. Lançamentos de meses anteriores
+                            não podem mais ser excluídos.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Como envio meus lançamentos pra contabilidade?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Na barra lateral, clique em "Exportar p/ escritório", escolha o mês, e o app gera
+                            um arquivo pra você anexar num e-mail — o próprio app já deixa o e-mail modelo
+                            pronto pra copiar.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Meus dados ficam salvos onde? Preciso de internet pra usar?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Tudo fica salvo no seu próprio computador — o app funciona sem internet. A única
+                            hora que você precisa de conexão é pra enviar o e-mail pro escritório.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="O que é a tela &quot;Relatórios&quot;?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            É um resumo visual de como está sua empresa: quanto entrou, quanto saiu, em que
+                            categorias você mais gastou, e a evolução mês a mês.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Esqueci minha senha, e agora?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Por enquanto o app não tem uma forma de redefinir a senha sozinho — fale com o
+                            escritório de contabilidade pra te ajudar.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="0">
+                    <StackPanel>
+                        <TextBlock Text="O que significa &quot;Versão beta&quot;?" Style="{StaticResource Text.Body}" FontWeight="SemiBold" Margin="0,0,0,6" TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap">
+                            Quer dizer que o app ainda está em fase de testes. Pode ter ajustes e melhorias
+                            acontecendo com frequência — se encontrar algo estranho, avise o escritório.
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="Fechar" Style="{StaticResource Button.Primary}"
+                Click="BotaoFechar_Click" Margin="0,16,0,0" />
+    </Grid>
+</Window>

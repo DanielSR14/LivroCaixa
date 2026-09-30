@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\LivroCaixa.Application\LivroCaixa.Application.csproj" />
+    <ProjectReference Include="..\LivroCaixa.Infrastructure\LivroCaixa.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.6" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.12" />
+    <PackageReference Include="Velopack" Version="1.2.158" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\livrocaixa_logo.svg" />
+    <!-- .ico multi-resolução (16 a 256px) gerado a partir do livrocaixa_icone.svg (versão quadrada da logo) — necessário porque
+         Window.Icon com um DrawingImage vetorial (via svgc:SvgImage) não aparece na taskbar do
+         Windows (só no título da janela); um .ico de verdade resolve os dois. Também usado como
+         ApplicationIcon (ícone do .exe no Explorer/atalhos). -->
+    <Resource Include="Assets\livrocaixa_icone.ico" />
+    <!-- Splash da abertura (App.Main), gerada a partir do livrocaixa_logo.svg. -->
+    <Resource Include="Assets\splash.png" />
+    <!-- Logo pré-renderizada (3x) para as telas de entrada: interpretar o SVG pelo SharpVectors
+         atrasava a primeira tela. As demais telas continuam usando o livrocaixa_logo.svg. -->
+    <Resource Include="Assets\livrocaixa_logo.png" />
+    <Resource Include="Assets\Icons\*.svg" />
+    <!-- Logos de bancos (Assets\BancosLogos\<Nome do banco>\arquivo.svg), coleção de terceiros —
+         ver Assets\BancosLogos\README.md para a licença/origem de cada logo. -->
+    <Resource Include="Assets\BancosLogos\**\*.svg" />
+  </ItemGroup>
+
+  <!-- Necessário para o Velopack: assumimos o Main manualmente em App.xaml.cs, em vez do
+       Main gerado automaticamente a partir de App.xaml, para poder chamar
+       VelopackApp.Build().Run() antes de qualquer outra coisa. -->
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <StartupObject>LivroCaixa.App.App</StartupObject>
+    <ApplicationIcon>Assets\livrocaixa_icone.ico</ApplicationIcon>
+    <!-- Pré-compila o código (inclusive EF Core e SharpVectors) no publish: menos JIT na abertura.
+         Só tem efeito em dotnet publish com RuntimeIdentifier (o gerar-instalador.bat). -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,62 @@
+<Window x:Class="LivroCaixa.App.Views.TermoUsoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LivroCaixa.App"
+        Title="{x:Static local:TermoDeUso.Titulo}"
+        Height="640" Width="620"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="{x:Static local:TermoDeUso.Titulo}" Style="{StaticResource Text.Title}" />
+            <TextBlock x:Name="TextoIntroducao" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,4,0,0"
+                       Text="Antes de começar, leia como o aplicativo trata os dados da sua organização." />
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                BorderThickness="1" CornerRadius="12">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,16">
+                <ItemsControl x:Name="ListaSecoes">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,16">
+                                <TextBlock Text="{Binding Titulo}" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,4" />
+                                <TextBlock Text="{Binding Texto}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Modo aceite (primeira execução / versão nova do termo) -->
+        <StackPanel x:Name="PainelAceite" Grid.Row="2" Margin="0,16,0,0">
+            <CheckBox x:Name="CaixaConcordo" Content="Li e concordo com o termo de uso e privacidade" Margin="0,0,0,12"
+                      Checked="CaixaConcordo_Alterada" Unchecked="CaixaConcordo_Alterada" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Recusar e sair" Style="{StaticResource Button.Secondary}"
+                        Click="BotaoRecusar_Click" />
+                <Button x:Name="BotaoAceitar" Grid.Column="2" Content="Aceitar e continuar" Style="{StaticResource Button.Primary}"
+                        IsEnabled="False" Click="BotaoAceitar_Click" />
+            </Grid>
+        </StackPanel>
+
+        <!-- Modo leitura (aberto depois, só para consulta) -->
+        <Button x:Name="BotaoFechar" Grid.Row="2" Content="Fechar" Style="{StaticResource Button.Primary}"
+                Margin="0,16,0,0" HorizontalAlignment="Right" MinWidth="140" Visibility="Collapsed"
+                Click="BotaoFechar_Click" />
+    </Grid>
+</Window>

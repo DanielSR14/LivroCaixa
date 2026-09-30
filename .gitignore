@@ -1,0 +1,36 @@
+## .NET / Visual Studio
+bin/
+obj/
+*.user
+.vs/
+
+## Rider / VS Code
+.idea/
+.vscode/
+
+## Testes / cobertura
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## Build de publicação / instalador
+publish/
+installer/publish/
+installer/Releases/
+
+## Dados locais de execução (SQLite do dev, backups locais)
+*.db
+*.db-shm
+*.db-wal
+/AppData/
+/Backups/
+
+## Segredos
+*.pfx
+appsettings.*.local.json
+.env
+
+## Documentação interna (fica só local) — no repositório, apenas os README.md
+*.md
+!README.md

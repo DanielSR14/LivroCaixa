@@ -1,0 +1,76 @@
+<Window x:Class="LivroCaixa.App.Views.ContasWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Contas"
+        Height="480" Width="880"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Contas" Style="{StaticResource Text.Title}" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Content="+ Nova conta" Style="{StaticResource Button.Primary}"
+                    Command="{Binding NovaContaCommand}" />
+        </Grid>
+
+        <TextBlock Grid.Row="1" Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}"
+                   Margin="0,0,0,8" />
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Contas}" AutoGenerateColumns="False"
+                  IsReadOnly="True" CanUserAddRows="False" GridLinesVisibility="Horizontal"
+                  BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                  RowHeight="40" HeadersVisibility="Column" Background="{StaticResource Brush.SurfaceBackground}"
+                  VerticalContentAlignment="Center">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Nome" Width="*" MinWidth="220">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Width="18" Height="18" Margin="0,0,8,0">
+                                    <svgc:SvgViewbox Source="{Binding Nome, Converter={StaticResource NomeContaParaIconeBancoConverter}}"
+                                                      Visibility="{Binding Nome, Converter={StaticResource NomeContaTemLogoBancoConverter}}" />
+                                    <svgc:SvgViewbox Source="{Binding Tipo, Converter={StaticResource TipoContaParaIconeConverter}}"
+                                                      Visibility="{Binding Nome, Converter={StaticResource NomeContaTemLogoBancoConverter}, ConverterParameter=Inverso}" />
+                                </Grid>
+                                <TextBlock Text="{Binding Nome}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="110" />
+                <DataGridTextColumn Header="Agência/Conta" Binding="{Binding DadosBancariosExibicao}" Width="200" />
+                <DataGridTextColumn Header="Saldo inicial" Binding="{Binding SaldoInicial, StringFormat={}{0:C2}}" Width="150" />
+                <DataGridTextColumn Header="Saldo atual" Binding="{Binding SaldoAtual, StringFormat={}{0:C2}}" Width="150" />
+                <DataGridTemplateColumn Header="" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource Button.Icon}" ToolTip="Editar"
+                                        Command="{Binding DataContext.EditarContaCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}">
+                                    <Image Source="{svgc:SvgImage Source=/Assets/Icons/edit.svg}" Width="16" Height="16" />
+                                </Button>
+                                <Button Style="{StaticResource Button.Icon}" ToolTip="Excluir"
+                                        Click="BotaoExcluir_Click" Tag="{Binding}">
+                                    <Image Source="{svgc:SvgImage Source=/Assets/Icons/trash.svg}" Width="16" Height="16" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

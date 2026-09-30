@@ -1,0 +1,327 @@
+<UserControl x:Class="LivroCaixa.App.Views.DashboardPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolParaVisibilidade" />
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Saudação + calendário da semana -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Saudacao}" Style="{StaticResource Text.Title}" />
+                    <TextBlock Style="{StaticResource Text.Caption}" Margin="0,2,0,0">
+                        <Run Text="Mostrando dados de " /><Run Text="{Binding CompetenciaAtualExibicao, Mode=OneWay}" FontWeight="SemiBold" />
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock x:Name="TextoRelogio" Text="00:00" Style="{StaticResource Text.Title}"
+                               HorizontalAlignment="Right" Margin="0,0,4,8" />
+
+                    <Border Background="{StaticResource Brush.SurfaceBackground}"
+                        BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                        CornerRadius="16" Padding="16,12" Effect="{StaticResource Effect.CardShadow}">
+                    <ItemsControl ItemsSource="{Binding DiasDaSemana}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="8,0" Width="32">
+                                    <TextBlock Text="{Binding Abreviacao}" Style="{StaticResource Text.Caption}"
+                                               HorizontalAlignment="Center" />
+                                    <Border Width="28" Height="28" Margin="0,4,0,0" CornerRadius="14"
+                                            HorizontalAlignment="Center">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding EhHoje}" Value="True">
+                                                        <Setter Property="Background" Value="{StaticResource Brush.Primary}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding Dia}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource Brush.TextPrimary}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding EhHoje}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.OnPrimary}" />
+                                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Cards de resumo -->
+            <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,16">
+                <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="12" Padding="20,16" Margin="0,0,12,0"
+                        Effect="{StaticResource Effect.CardShadow}">
+                    <StackPanel>
+                        <TextBlock Text="SALDO ATUAL" Style="{StaticResource Text.Field.Label}" />
+                        <TextBlock Text="{Binding SaldoAtual, StringFormat={}{0:C2}}" Style="{StaticResource Text.Title}" />
+                    </StackPanel>
+                </Border>
+                <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="12" Padding="20,16" Margin="0,0,12,0"
+                        Effect="{StaticResource Effect.CardShadow}">
+                    <StackPanel>
+                        <TextBlock Text="ENTRADAS DO MÊS" Style="{StaticResource Text.Field.Label}" />
+                        <TextBlock Text="{Binding TotalEntradasMes, StringFormat={}{0:C2}}" Style="{StaticResource Text.Title}"
+                                   Foreground="{StaticResource Brush.Success}" />
+                    </StackPanel>
+                </Border>
+                <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="12" Padding="20,16"
+                        Effect="{StaticResource Effect.CardShadow}">
+                    <StackPanel>
+                        <TextBlock Text="SAÍDAS DO MÊS" Style="{StaticResource Text.Field.Label}" />
+                        <TextBlock Text="{Binding TotalSaidasMes, StringFormat={}{0:C2}}" Style="{StaticResource Text.Title}"
+                                   Foreground="{StaticResource Brush.Error}" />
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                           Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}"
+                           Margin="0,0,0,8" />
+
+                <!-- Pendências: o que falta para o escritório receber tudo completo e em dia -->
+                <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                        BorderThickness="1" CornerRadius="12" Padding="20,16" Margin="0,0,0,16"
+                        Effect="{StaticResource Effect.CardShadow}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Ellipse Width="10" Height="10" Margin="0,0,8,0" VerticalAlignment="Center">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="{StaticResource Brush.Success}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TemPendencias}" Value="True">
+                                                <Setter Property="Fill" Value="{StaticResource Brush.Warning}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                            <TextBlock Text="Pendências" Style="{StaticResource Text.Subtitle}" />
+                        </StackPanel>
+
+                        <TextBlock Text="Tudo em dia: nada pendente para enviar ao escritório."
+                                   Style="{StaticResource Text.Body}"
+                                   Visibility="{Binding TemPendencias, Converter={StaticResource BoolInvertidoParaVisibilidadeConverter}}" />
+
+                        <ItemsControl ItemsSource="{Binding Pendencias}"
+                                      Visibility="{Binding TemPendencias, Converter={StaticResource BoolParaVisibilidade}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource Text.Body}" Margin="0,2,0,0">
+                                        <Run Text="•  " /><Run Text="{Binding Mode=OneWay}" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Resumo por categoria + últimos lançamentos -->
+            <Grid Grid.Row="3" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="{StaticResource Brush.SurfaceBackground}"
+                        BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                        CornerRadius="12" Padding="20" Effect="{StaticResource Effect.CardShadow}"
+                        VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Saídas por categoria (mês atual)" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,12" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Width="150" Height="150" VerticalAlignment="Center">
+                                <ItemsControl ItemsSource="{Binding FatiasSaidasPorCategoria}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Path Data="{Binding Geometria}" Fill="{Binding Cor}"
+                                                  Stroke="{StaticResource Brush.SurfaceBackground}" StrokeThickness="2" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <ItemsControl ItemsSource="{Binding FatiasSaidasPorCategoria}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="10" Height="10" CornerRadius="2"
+                                                        Background="{Binding Cor}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Categoria}" Style="{StaticResource Text.Body}"
+                                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Grid.Column="2" Text="{Binding TotalExibicao}" Style="{StaticResource Text.Caption}"
+                                                           VerticalAlignment="Center" Margin="12,0,0,0" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Text="Nenhuma saída registrada neste mês ainda." Style="{StaticResource Text.Caption}"
+                                   Visibility="{Binding FatiasSaidasPorCategoria.Count, Converter={StaticResource ContagemZeroParaVisibilidadeConverter}}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Background="{StaticResource Brush.SurfaceBackground}"
+                        BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                        CornerRadius="12" Padding="20" Effect="{StaticResource Effect.CardShadow}"
+                        VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Últimos lançamentos" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,12" />
+                        <ItemsControl ItemsSource="{Binding UltimosLancamentos}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Data, StringFormat=dd/MM}"
+                                                   Style="{StaticResource Text.Caption}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Descricao}" Style="{StaticResource Text.Body}"
+                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Valor, StringFormat={}{0:C2}}"
+                                                   VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource Brush.Success}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Tipo}" Value="Saida">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.Error}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Evolução mensal: entradas x saídas nos últimos meses -->
+            <Border Grid.Row="4" Background="{StaticResource Brush.SurfaceBackground}"
+                    BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                    CornerRadius="12" Padding="20" Effect="{StaticResource Effect.CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="Evolução mensal (entradas x saídas)" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Border Width="10" Height="10" Background="{StaticResource Brush.Success}" CornerRadius="2"
+                                VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBlock Text="Entradas" Style="{StaticResource Text.Caption}" Margin="0,0,16,0" />
+                        <Border Width="10" Height="10" Background="{StaticResource Brush.Error}" CornerRadius="2"
+                                VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBlock Text="Saídas" Style="{StaticResource Text.Caption}" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding EvolucaoMensal}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding MesExibicao}" Style="{StaticResource Text.Body}"
+                                               VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="90" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Height="10" Background="{StaticResource Brush.AppBackground}"
+                                                    CornerRadius="4" HorizontalAlignment="Stretch">
+                                                <Border Width="{Binding PercentualEntradas}" HorizontalAlignment="Left"
+                                                        Background="{StaticResource Brush.Success}" CornerRadius="4" />
+                                            </Border>
+                                            <TextBlock Grid.Column="1" Text="{Binding Entradas, StringFormat={}{0:C2}}"
+                                                       Style="{StaticResource Text.Caption}" HorizontalAlignment="Right" />
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="90" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Height="10" Background="{StaticResource Brush.AppBackground}"
+                                                    CornerRadius="4" HorizontalAlignment="Stretch">
+                                                <Border Width="{Binding PercentualSaidas}" HorizontalAlignment="Left"
+                                                        Background="{StaticResource Brush.Error}" CornerRadius="4" />
+                                            </Border>
+                                            <TextBlock Grid.Column="1" Text="{Binding Saidas, StringFormat={}{0:C2}}"
+                                                       Style="{StaticResource Text.Caption}" HorizontalAlignment="Right" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="Ainda não há lançamentos suficientes para mostrar a evolução mensal."
+                               Style="{StaticResource Text.Caption}"
+                               Visibility="{Binding EvolucaoMensal.Count, Converter={StaticResource ContagemZeroParaVisibilidadeConverter}}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

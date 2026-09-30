@@ -1,0 +1,86 @@
+<Window x:Class="LivroCaixa.App.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LivroCaixa.App"
+        Title="Livro Caixa — Entrar"
+        Height="600" Width="960"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="380" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Formulário de login -->
+        <StackPanel Grid.Column="0" MaxWidth="340" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="64,0,32,0">
+            <Image Source="/Assets/livrocaixa_logo.png" RenderOptions.BitmapScalingMode="HighQuality" Width="120" Stretch="Uniform"
+                   HorizontalAlignment="Left" Margin="0,0,0,32" />
+
+            <TextBlock Text="Bem-vindo de volta" Style="{StaticResource Text.Title}" Margin="0,0,0,4" />
+            <TextBlock Text="Entre para continuar registrando as movimentações da sua empresa."
+                       Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,28" />
+
+            <TextBlock Text="Nome de usuário" Style="{StaticResource Text.Field.Label}" />
+            <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,16"
+                     Text="{Binding NomeUsuario, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Text="Senha" Style="{StaticResource Text.Field.Label}" />
+            <PasswordBox x:Name="CampoSenha" Style="{StaticResource PasswordBox.Default}" Margin="0,0,0,12"
+                         PasswordChanged="CampoSenha_PasswordChanged" />
+
+            <Grid Margin="0,0,0,8">
+                <CheckBox Content="Lembrar meu usuário" IsChecked="{Binding LembrarUsuario}" HorizontalAlignment="Left" />
+                <TextBlock HorizontalAlignment="Right" FontSize="13">
+                    <Hyperlink Click="LinkEsqueciSenha_Click" Foreground="{StaticResource Brush.Primary}">Esqueci minha senha</Hyperlink>
+                </TextBlock>
+            </Grid>
+
+            <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                       Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+            <TextBlock Text="{Binding MensagemInformativa}" Style="{StaticResource Text.Caption}"
+                       Foreground="{StaticResource Brush.Success}" TextWrapping="Wrap" Margin="0,4,0,0"
+                       Visibility="{Binding MensagemInformativa, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+            <Button Content="Entrar" Style="{StaticResource Button.Primary}" IsDefault="True"
+                    Command="{Binding EntrarCommand}" Margin="0,20,0,0"
+                    IsEnabled="{Binding EstaEntrando, Converter={StaticResource InverterBoolConverter}}" />
+        </StackPanel>
+
+        <!-- Painel institucional: o que o app faz + dados do escritório -->
+        <Border Grid.Column="1" Background="{StaticResource Brush.SidebarBackground}">
+            <StackPanel VerticalAlignment="Center" Margin="40">
+                <Image Source="/Assets/livrocaixa_logo.png" RenderOptions.BitmapScalingMode="HighQuality" Width="96" Stretch="Uniform"
+                       HorizontalAlignment="Left" Margin="0,0,0,20" />
+
+                <TextBlock Text="{x:Static local:DadosDoEscritorio.PropostaDeValor}" FontSize="17" FontWeight="SemiBold"
+                           Foreground="{StaticResource Brush.OnPrimary}" TextWrapping="Wrap" Margin="0,0,0,20" />
+
+                <StackPanel Margin="0,0,0,4">
+                    <TextBlock Text="• Registre entradas e saídas sem precisar entender débito, crédito ou plano de contas"
+                               Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" Margin="0,0,0,8" FontSize="13" />
+                    <TextBlock Text="• Anexe os comprovantes de cada lançamento direto no app"
+                               Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" Margin="0,0,0,8" FontSize="13" />
+                    <TextBlock Text="• Envie tudo para o escritório com poucos cliques, sem papel"
+                               Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" Margin="0,0,0,8" FontSize="13" />
+                </StackPanel>
+
+                <Border Height="1" Background="{StaticResource Brush.SidebarItemHover}" Margin="0,24" />
+
+                <TextBlock Text="{x:Static local:DadosDoEscritorio.Nome}" FontSize="15" FontWeight="SemiBold"
+                           Foreground="{StaticResource Brush.OnPrimary}" TextWrapping="Wrap" Margin="0,0,0,8" />
+                <TextBlock Text="{x:Static local:DadosDoEscritorio.Telefone}"
+                           Visibility="{Binding Source={x:Static local:DadosDoEscritorio.Telefone}, Converter={StaticResource TextoParaVisibilidadeConverter}}"
+                           Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" Margin="0,0,0,4" FontSize="13" />
+                <TextBlock Text="{x:Static local:DadosDoEscritorio.Endereco}"
+                           Visibility="{Binding Source={x:Static local:DadosDoEscritorio.Endereco}, Converter={StaticResource TextoParaVisibilidadeConverter}}"
+                           Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" Margin="0,0,0,4" FontSize="13" />
+                <TextBlock Text="{x:Static local:DadosDoEscritorio.EmailContabil}"
+                           Foreground="{StaticResource Brush.SidebarTextoSecundario}" TextWrapping="Wrap" FontSize="13" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

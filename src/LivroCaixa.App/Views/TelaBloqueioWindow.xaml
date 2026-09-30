@@ -1,0 +1,36 @@
+<Window x:Class="LivroCaixa.App.Views.TelaBloqueioWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Livro Caixa — Bloqueado"
+        Width="400" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="28">
+        <Image Source="{svgc:SvgImage Source=/Assets/livrocaixa_logo.svg}" Width="72" Stretch="Uniform"
+               HorizontalAlignment="Left" Margin="0,0,0,20" />
+
+        <TextBlock Text="Sessão bloqueada" Style="{StaticResource Text.Title}" Margin="0,0,0,4" />
+        <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,0,0,20">
+            <Run Text="O aplicativo foi bloqueado por inatividade. Digite a senha de " /><Run Text="{Binding NomeUsuario, Mode=OneWay}" FontWeight="SemiBold" /><Run Text=" para continuar de onde parou." />
+        </TextBlock>
+
+        <TextBlock Text="Senha" Style="{StaticResource Text.Field.Label}" />
+        <PasswordBox x:Name="CampoSenha" Style="{StaticResource PasswordBox.Default}" Margin="0,0,0,8"
+                     PasswordChanged="CampoSenha_PasswordChanged" />
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+        <Button Content="Desbloquear" Style="{StaticResource Button.Primary}" IsDefault="True"
+                Command="{Binding DesbloquearCommand}" Margin="0,16,0,12"
+                IsEnabled="{Binding EstaVerificando, Converter={StaticResource InverterBoolConverter}}" />
+
+        <TextBlock HorizontalAlignment="Center" FontSize="13">
+            <Hyperlink Command="{Binding SairCommand}" Foreground="{StaticResource Brush.Primary}">Sair da conta (entrar com outro usuário)</Hyperlink>
+        </TextBlock>
+    </StackPanel>
+</Window>

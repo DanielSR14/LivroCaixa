@@ -1,0 +1,142 @@
+<Window x:Class="LivroCaixa.App.Views.LancamentoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:enums="clr-namespace:LivroCaixa.Domain.Enums;assembly=LivroCaixa.Domain"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="{Binding TituloJanela}"
+        Height="760" Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}"
+        AllowDrop="True"
+        PreviewDragEnter="Janela_PreviewDragOver"
+        PreviewDragOver="Janela_PreviewDragOver"
+        PreviewDragLeave="Janela_PreviewDragLeave"
+        PreviewDrop="Janela_PreviewDrop">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="TiposLancamento" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:TipoLancamento" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="FormasPagamento" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:FormaPagamento" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="24">
+        <TextBlock Text="{Binding TituloJanela}" Style="{StaticResource Text.Title}" Margin="0,0,0,16" />
+
+        <!-- Modelo: com o campo em foco, digitar o código (ex: ALU) já seleciona o modelo e preenche o resto. -->
+        <StackPanel Margin="0,0,0,12"
+                    Visibility="{Binding PodeUsarModelo, Converter={StaticResource BoolParaVisibilidadeConverter}}">
+            <TextBlock Text="Usar modelo (clique e digite o código)" Style="{StaticResource Text.Field.Label}" />
+            <ComboBox x:Name="CampoModelo" Style="{StaticResource ComboBox.Default}"
+                      ItemsSource="{Binding ModelosDisponiveis}" DisplayMemberPath="Exibicao"
+                      IsTextSearchEnabled="True" TextSearch.TextPath="Codigo"
+                      SelectedItem="{Binding ModeloSelecionado}" />
+        </StackPanel>
+
+        <TextBlock Text="Tipo" Style="{StaticResource Text.Field.Label}" />
+        <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                  ItemsSource="{Binding Source={StaticResource TiposLancamento}}"
+                  SelectedItem="{Binding Tipo}"
+                  IsEnabled="{Binding EstaEditando, Converter={StaticResource InverterBoolConverter}}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumParaTextoExibicaoConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Text="Data" Style="{StaticResource Text.Field.Label}" />
+        <DatePicker SelectedDate="{Binding Data}" Margin="0,0,0,12" />
+
+        <TextBlock Text="Valor (R$)" Style="{StaticResource Text.Field.Label}" />
+        <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,12"
+                 Text="{Binding ValorTexto, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock Text="Categoria" Style="{StaticResource Text.Field.Label}" />
+        <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                  ItemsSource="{Binding CategoriasDisponiveis}"
+                  DisplayMemberPath="Nome"
+                  SelectedItem="{Binding CategoriaSelecionada}" />
+
+        <TextBlock Text="Conta" Style="{StaticResource Text.Field.Label}" />
+        <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                  ItemsSource="{Binding ContasDisponiveis}"
+                  DisplayMemberPath="Nome"
+                  SelectedItem="{Binding ContaSelecionada}" />
+
+        <TextBlock Text="Forma de pagamento" Style="{StaticResource Text.Field.Label}" />
+        <ComboBox Style="{StaticResource ComboBox.Default}" Margin="0,0,0,12"
+                  ItemsSource="{Binding Source={StaticResource FormasPagamento}}"
+                  SelectedItem="{Binding FormaPagamento}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumParaTextoExibicaoConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Text="Descrição (opcional)" Style="{StaticResource Text.Field.Label}" />
+        <TextBox Style="{StaticResource TextBox.Default}" Margin="0,0,0,4"
+                 Text="{Binding Descricao, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel>
+            <TextBlock Text="Anexos" Style="{StaticResource Text.Field.Label}" Margin="0,8,0,4" />
+
+            <ItemsControl ItemsSource="{Binding Anexos}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <svgc:SvgViewbox Grid.Column="0"
+                                              Source="{Binding NomeArquivo, Converter={StaticResource NomeArquivoParaIconeConverter}}"
+                                              Width="16" Height="16" Margin="0,0,8,0" />
+                            <TextBlock Grid.Column="1" Text="{Binding NomeArquivo}" Style="{StaticResource Text.Body}"
+                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Remover" Padding="8,2"
+                                    Command="{Binding DataContext.RemoverAnexoCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding Id}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Área de soltar: aceita o arquivo solto em qualquer ponto da janela, isto aqui só sinaliza. -->
+            <Border x:Name="AreaSoltarComprovante" BorderThickness="1.5" CornerRadius="8" Padding="12"
+                    Margin="0,4,0,16" BorderBrush="{StaticResource Brush.Border}" Background="Transparent">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <svgc:SvgViewbox Source="/Assets/Icons/paperclip.svg" Width="16" Height="16" Margin="0,0,8,0" />
+                        <TextBlock Text="Arraste o comprovante para cá (PDF, JPG ou PNG)" Style="{StaticResource Text.Caption}"
+                                   VerticalAlignment="Center" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="Procurar..." Padding="10,6" Click="BotaoAnexar_Click" />
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+        <Button Content="Salvar" Style="{StaticResource Button.Primary}"
+                Command="{Binding SalvarCommand}" Margin="0,20,0,0"
+                IsEnabled="{Binding EstaSalvando, Converter={StaticResource InverterBoolConverter}}" />
+    </StackPanel>
+    </ScrollViewer>
+</Window>

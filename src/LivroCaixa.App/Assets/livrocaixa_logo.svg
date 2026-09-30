@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="540" height="180" viewBox="0 0 540 180">
+  <rect x="0" y="0" width="540" height="180" rx="28" ry="28" fill="#1F4E79"/>
+  <g transform="translate(18,16) scale(0.58)">
+    <rect x="50" y="40" width="128" height="168" rx="16" ry="16" fill="#FFFFFF"/>
+    <rect x="72" y="76" width="84" height="12" rx="6" ry="6" fill="#9FB6CE"/>
+    <rect x="72" y="106" width="84" height="12" rx="6" ry="6" fill="#9FB6CE"/>
+    <rect x="72" y="136" width="52" height="12" rx="6" ry="6" fill="#9FB6CE"/>
+    <circle cx="182" cy="182" r="52" fill="#2E9E6B" stroke="#1F4E79" stroke-width="12"/>
+    <path d="M164 204 L164 162 M150 176 L164 160 L178 176" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M200 160 L200 202 M186 188 L200 204 L214 188" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="180" y="100" font-family="Segoe UI" font-weight="600" font-size="60" fill="#FFFFFF">Livro Caixa</text>
+  <text x="182" y="136" font-family="Segoe UI" font-size="21" fill="#C8D8EA">entradas · saídas · comprovantes</text>
+</svg>

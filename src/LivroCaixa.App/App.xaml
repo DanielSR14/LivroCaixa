@@ -1,0 +1,33 @@
+﻿<Application x:Class="LivroCaixa.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LivroCaixa.App"
+             xmlns:converters="clr-namespace:LivroCaixa.App.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/Colors.xaml" />
+                <ResourceDictionary Source="Theme/Typography.xaml" />
+                <ResourceDictionary Source="Theme/Controls.xaml" />
+                <ResourceDictionary Source="Theme/Effects.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:TextoParaVisibilidadeConverter x:Key="TextoParaVisibilidadeConverter" />
+            <converters:TextoParaVisibilidadeInversoConverter x:Key="TextoParaVisibilidadeInversoConverter" />
+            <converters:InverterBoolConverter x:Key="InverterBoolConverter" />
+            <converters:BoolInvertidoParaVisibilidadeConverter x:Key="BoolInvertidoParaVisibilidadeConverter" />
+            <BooleanToVisibilityConverter x:Key="BoolParaVisibilidadeConverter" />
+            <converters:PaginaAtivaParaBrushConverter x:Key="PaginaAtivaParaBrushConverter" />
+            <converters:ContagemZeroParaVisibilidadeConverter x:Key="ContagemZeroParaVisibilidadeConverter" />
+            <converters:NomeContaParaIconeBancoConverter x:Key="NomeContaParaIconeBancoConverter" />
+            <converters:NomeContaTemLogoBancoConverter x:Key="NomeContaTemLogoBancoConverter" />
+            <converters:TipoContaParaIconeConverter x:Key="TipoContaParaIconeConverter" />
+            <converters:NomeArquivoParaIconeConverter x:Key="NomeArquivoParaIconeConverter" />
+            <converters:FormaPagamentoParaIconeConverter x:Key="FormaPagamentoParaIconeConverter" />
+            <converters:ObjetoNuloParaVisibilidadeConverter x:Key="ObjetoNuloParaVisibilidadeConverter" />
+            <converters:TipoLancamentoParaCorConverter x:Key="TipoLancamentoParaCorConverter" />
+            <converters:EnumParaTextoExibicaoConverter x:Key="EnumParaTextoExibicaoConverter" />
+            <converters:ValorParaCorConverter x:Key="ValorParaCorConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

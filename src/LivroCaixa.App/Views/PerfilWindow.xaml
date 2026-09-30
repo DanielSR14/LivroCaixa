@@ -1,0 +1,55 @@
+<Window x:Class="LivroCaixa.App.Views.PerfilWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Meu perfil"
+        Width="400" MinHeight="420" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <Border Width="64" Height="64" CornerRadius="32" Background="{StaticResource Brush.Primary}"
+                HorizontalAlignment="Center" Margin="0,0,0,16">
+            <TextBlock Text="{Binding IniciaisUsuario}" Foreground="{StaticResource Brush.OnPrimary}"
+                       FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+
+        <TextBlock Text="{Binding NomeUsuario}" Style="{StaticResource Text.Title}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,2" />
+        <TextBlock Text="{Binding PerfilExibicao}" Style="{StaticResource Text.Caption}"
+                   HorizontalAlignment="Center" Margin="0,0,0,24" />
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}"
+                   Margin="0,0,0,16" />
+
+        <TextBlock Text="Empresa" Style="{StaticResource Text.Field.Label}" Margin="0,0,0,8" />
+
+        <StackPanel Margin="0,0,0,8">
+            <TextBlock Text="Nome" Style="{StaticResource Text.Caption}" />
+            <TextBlock Text="{Binding NomeEmpresa}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Margin="0,0,0,8" Visibility="{Binding RazaoSocial, Converter={StaticResource TextoParaVisibilidadeConverter}}">
+            <TextBlock Text="Razão social" Style="{StaticResource Text.Caption}" />
+            <TextBlock Text="{Binding RazaoSocial}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Margin="0,0,0,8">
+            <TextBlock Text="CNPJ" Style="{StaticResource Text.Caption}" />
+            <TextBlock Text="{Binding Cnpj}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Margin="0,0,0,8" Visibility="{Binding Segmento, Converter={StaticResource TextoParaVisibilidadeConverter}}">
+            <TextBlock Text="Segmento" Style="{StaticResource Text.Caption}" />
+            <TextBlock Text="{Binding Segmento}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Margin="0,0,0,20">
+            <TextBlock Text="Cadastrada em" Style="{StaticResource Text.Caption}" />
+            <TextBlock Text="{Binding DataCadastroEmpresa, StringFormat=dd/MM/yyyy}" Style="{StaticResource Text.Body}" />
+        </StackPanel>
+
+        <Button Content="Fechar" Style="{StaticResource Button.Primary}" Click="BotaoFechar_Click" />
+    </StackPanel>
+</Window>

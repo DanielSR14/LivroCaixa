@@ -1,0 +1,260 @@
+<Window x:Class="LivroCaixa.App.Views.LancamentoDetalheWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Detalhes do lançamento"
+        Width="460" MinHeight="560" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <TextBlock Text="Detalhes do lançamento" Style="{StaticResource Text.Title}" Margin="0,0,0,16" />
+
+            <!-- Card de destaque: valor + tipo + data -->
+            <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,16"
+                    Effect="{StaticResource Effect.CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Detalhe.Tipo}" Style="{StaticResource Text.Field.Label}" />
+                    <TextBlock Text="{Binding Detalhe.Valor, StringFormat={}{0:C2}}" Style="{StaticResource Text.Title}"
+                               Foreground="{Binding Detalhe.Tipo, Converter={StaticResource TipoLancamentoParaCorConverter}}"
+                               FontSize="28" Margin="0,2,0,10" />
+                    <StackPanel Orientation="Horizontal">
+                        <svgc:SvgViewbox Source="/Assets/Icons/calendar.svg" Width="16" Height="16" Margin="0,0,6,0" />
+                        <TextBlock Text="{Binding Detalhe.Data, StringFormat=dd/MM/yyyy}" Style="{StaticResource Text.Body}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Categoria, conta, forma de pagamento -->
+            <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,16"
+                    Effect="{StaticResource Effect.CardShadow}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0" Source="/Assets/Icons/tag.svg" Width="18" Height="18" Margin="0,0,10,0" />
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Categoria" Style="{StaticResource Text.Field.Label}" />
+                            <TextBlock Text="{Binding Detalhe.Categoria}" Style="{StaticResource Text.Body}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0">
+                            <svgc:SvgViewbox Source="{Binding Detalhe.Conta, Converter={StaticResource NomeContaParaIconeBancoConverter}}"
+                                              Visibility="{Binding Detalhe.Conta, Converter={StaticResource NomeContaTemLogoBancoConverter}}" />
+                            <svgc:SvgViewbox Source="{Binding Detalhe.TipoConta, Converter={StaticResource TipoContaParaIconeConverter}}"
+                                              Visibility="{Binding Detalhe.Conta, Converter={StaticResource NomeContaTemLogoBancoConverter}, ConverterParameter=Inverso}" />
+                        </Grid>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Conta" Style="{StaticResource Text.Field.Label}" />
+                            <TextBlock Text="{Binding Detalhe.Conta}" Style="{StaticResource Text.Body}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0"
+                                          Source="{Binding Detalhe.FormaPagamento, Converter={StaticResource FormaPagamentoParaIconeConverter}}"
+                                          Width="18" Height="18" Margin="0,0,10,0" />
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Forma de pagamento" Style="{StaticResource Text.Field.Label}" />
+                            <TextBlock Text="{Binding Detalhe.FormaPagamento, Converter={StaticResource EnumParaTextoExibicaoConverter}}" Style="{StaticResource Text.Body}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Descrição e observações -->
+            <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,16"
+                    Effect="{StaticResource Effect.CardShadow}"
+                    Visibility="{Binding Detalhe.Descricao, Converter={StaticResource TextoParaVisibilidadeConverter}}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0" Source="/Assets/Icons/file-text.svg" Width="18" Height="18" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="1" Text="Descrição" Style="{StaticResource Text.Field.Label}" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="{Binding Detalhe.Descricao}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="28,0,0,0" />
+
+                    <Grid Margin="0,12,0,4"
+                          Visibility="{Binding Detalhe.Observacoes, Converter={StaticResource TextoParaVisibilidadeConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0" Source="/Assets/Icons/message-square.svg" Width="18" Height="18" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="1" Text="Observações" Style="{StaticResource Text.Field.Label}" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="{Binding Detalhe.Observacoes}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" Margin="28,0,0,0"
+                               Visibility="{Binding Detalhe.Observacoes, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Anexos -->
+            <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,16"
+                    Effect="{StaticResource Effect.CardShadow}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0" Source="/Assets/Icons/paperclip.svg" Width="18" Height="18" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="1" Text="Anexos" Style="{StaticResource Text.Field.Label}" VerticalAlignment="Center" />
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding Detalhe.Anexos}" Margin="28,0,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <svgc:SvgViewbox Grid.Column="0"
+                                                      Source="{Binding NomeArquivo, Converter={StaticResource NomeArquivoParaIconeConverter}}"
+                                                      Width="16" Height="16" Margin="0,0,8,0" />
+                                    <TextBlock Grid.Column="1" Text="{Binding NomeArquivo}" Style="{StaticResource Text.Body}"
+                                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <Button Grid.Column="2" Content="Abrir" Padding="8,2" Tag="{Binding Id}"
+                                            Click="BotaoAbrirAnexo_Click" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="Nenhum comprovante anexado." Style="{StaticResource Text.Caption}" Margin="28,0,0,0"
+                               Visibility="{Binding Detalhe.Anexos.Count, Converter={StaticResource ContagemZeroParaVisibilidadeConverter}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Histórico de auditoria -->
+            <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                    BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,0,16"
+                    Effect="{StaticResource Effect.CardShadow}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <svgc:SvgViewbox Grid.Column="0" Source="/Assets/Icons/calendar.svg" Width="18" Height="18" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="1" Text="Histórico de alterações" Style="{StaticResource Text.Field.Label}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <!-- Linha do tempo: mais recente em cima. Marcador colorido por tipo de evento e uma
+                         linha vertical ligando ao evento seguinte (exceto no último). -->
+                    <ItemsControl ItemsSource="{Binding Historico}" Margin="4,4,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Rectangle Grid.Column="0" Width="2" Margin="0,16,0,0" HorizontalAlignment="Center"
+                                               Fill="{StaticResource Brush.Border}"
+                                               Visibility="{Binding EhUltimo, Converter={StaticResource BoolInvertidoParaVisibilidadeConverter}}" />
+                                    <Ellipse Grid.Column="0" Width="12" Height="12" VerticalAlignment="Top" Margin="0,4,0,0"
+                                             Stroke="{StaticResource Brush.SurfaceBackground}" StrokeThickness="2">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill" Value="{StaticResource Brush.Primary}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TipoEvento}" Value="Criado">
+                                                        <Setter Property="Fill" Value="{StaticResource Brush.Success}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding TipoEvento}" Value="Excluido">
+                                                        <Setter Property="Fill" Value="{StaticResource Brush.Error}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding TipoEvento}" Value="Restaurado">
+                                                        <Setter Property="Fill" Value="{StaticResource Brush.Warning}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,16">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Titulo}" Style="{StaticResource Text.Body}" FontWeight="SemiBold" />
+                                            <TextBlock Grid.Column="1" Style="{StaticResource Text.Caption}" VerticalAlignment="Center">
+                                                <Run Text="{Binding DataHora, StringFormat=dd/MM/yyyy, Mode=OneWay}" /><Run Text=" às " /><Run Text="{Binding DataHora, StringFormat=HH:mm, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </Grid>
+
+                                        <TextBlock Text="{Binding Explicacao}" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,2,0,0"
+                                                   Visibility="{Binding TemAlteracoes, Converter={StaticResource BoolInvertidoParaVisibilidadeConverter}}" />
+
+                                        <!-- O que mudou nesta edição: campo, valor antigo riscado → valor novo -->
+                                        <Border Background="{StaticResource Brush.AppBackground}" CornerRadius="8" Padding="12,8" Margin="0,6,0,0"
+                                                Visibility="{Binding TemAlteracoes, Converter={StaticResource BoolParaVisibilidadeConverter}}">
+                                            <ItemsControl ItemsSource="{Binding Alteracoes}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Margin="0,3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="128" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" Text="{Binding Campo}" Style="{StaticResource Text.Caption}"
+                                                                       TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,1,8,0" />
+                                                            <!-- Texto corrido (Runs), para textos longos quebrarem palavra a palavra sem deixar a seta solta. -->
+                                                            <TextBlock Grid.Column="1" Style="{StaticResource Text.Body}" TextWrapping="Wrap">
+                                                                <Run Text="{Binding Antes, Mode=OneWay}" Foreground="{StaticResource Brush.TextSecondary}"
+                                                                     TextDecorations="Strikethrough" /><Run Text="  →  " Foreground="{StaticResource Brush.TextSecondary}" /><Run
+                                                                     Text="{Binding Depois, Mode=OneWay}" FontWeight="SemiBold" />
+                                                            </TextBlock>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="Nenhum evento registrado ainda." Style="{StaticResource Text.Caption}" Margin="28,0,0,0"
+                               Visibility="{Binding Historico.Count, Converter={StaticResource ContagemZeroParaVisibilidadeConverter}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Só para lançamentos anteriores à auditoria (sem eventos no histórico): nos demais, a linha do tempo já mostra isto. -->
+            <StackPanel Visibility="{Binding TemHistorico, Converter={StaticResource BoolInvertidoParaVisibilidadeConverter}}">
+                <TextBlock Style="{StaticResource Text.Caption}" Margin="0,0,0,4">
+                    <Run Text="Criado em " /><Run Text="{Binding CriadoEmLocal, StringFormat=dd/MM/yyyy HH:mm, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource Text.Caption}"
+                           Visibility="{Binding AlteradoEmLocal, Converter={StaticResource ObjetoNuloParaVisibilidadeConverter}}">
+                    <Run Text="Editado em " /><Run Text="{Binding AlteradoEmLocal, StringFormat=dd/MM/yyyy HH:mm, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+            <Button Content="Fechar" Style="{StaticResource Button.Primary}" Click="BotaoFechar_Click" Margin="0,20,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>

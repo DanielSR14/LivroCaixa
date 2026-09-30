@@ -1,0 +1,94 @@
+<Window x:Class="LivroCaixa.App.Views.SobreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Sobre"
+        Width="440" MinHeight="460" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <Image Source="{svgc:SvgImage Source=/Assets/livrocaixa_logo.svg}" Width="140" Stretch="Uniform"
+               HorizontalAlignment="Center" Margin="0,0,0,12" />
+
+        <TextBlock x:Name="TextoNome" Style="{StaticResource Text.Title}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,4" />
+
+        <TextBlock x:Name="TextoProposta" Style="{StaticResource Text.Caption}"
+                   HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,4" />
+
+        <Border Background="{StaticResource Brush.PrimaryTint}" CornerRadius="10" Padding="8,3"
+                HorizontalAlignment="Center" Margin="0,8,0,20">
+            <TextBlock Text="Versão beta — em fase de testes" Style="{StaticResource Text.Caption}"
+                       Foreground="{StaticResource Brush.Primary}" FontWeight="SemiBold" />
+        </Border>
+
+        <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,16" Effect="{StaticResource Effect.CardShadow}">
+            <StackPanel>
+                <TextBlock Text="Sobre o Livro Caixa" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,8" />
+                <TextBlock Style="{StaticResource Text.Body}" TextWrapping="Wrap">
+                    Este app é oferecido gratuitamente pelo seu escritório de contabilidade pra facilitar o dia a dia
+                    financeiro da sua empresa: em vez de papel, planilhas soltas ou anotações avulsas,
+                    você registra aqui as entradas e saídas, guarda os comprovantes e envia tudo pra
+                    contabilidade em poucos cliques — sem precisar entender de contabilidade pra usar.
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <Border Background="{StaticResource Brush.SurfaceBackground}" BorderBrush="{StaticResource Brush.Border}"
+                BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,16" Effect="{StaticResource Effect.CardShadow}">
+            <StackPanel>
+                <TextBlock Text="Contato" Style="{StaticResource Text.Field.Label}" Margin="0,0,0,10" />
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{svgc:SvgImage Source=/Assets/Icons/mail.svg}"
+                           Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="TextoEmail" Grid.Column="1" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid x:Name="LinhaTelefone" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{svgc:SvgImage Source=/Assets/Icons/phone.svg}"
+                           Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="TextoTelefone" Grid.Column="1" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid x:Name="LinhaEndereco" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{svgc:SvgImage Source=/Assets/Icons/map-pin.svg}"
+                           Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="TextoEndereco" Grid.Column="1" Style="{StaticResource Text.Body}" TextWrapping="Wrap" />
+                </Grid>
+
+                <Border x:Name="SeparadorCnpj" Height="1" Background="{StaticResource Brush.Border}" Margin="0,4,0,10" />
+
+                <Grid x:Name="LinhaCnpj">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{svgc:SvgImage Source=/Assets/Icons/hash.svg}"
+                           Width="14" Height="14" Margin="0,1,8,0" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1">
+                        <TextBlock x:Name="TextoRazaoSocial" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" />
+                        <TextBlock x:Name="TextoCnpj" Style="{StaticResource Text.Caption}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Button Content="Fechar" Style="{StaticResource Button.Primary}" Click="BotaoFechar_Click" />
+    </StackPanel>
+</Window>

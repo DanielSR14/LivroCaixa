@@ -1,0 +1,95 @@
+<Window x:Class="LivroCaixa.App.Views.ConfiguracoesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        Title="Configurações"
+        Width="480" MinHeight="480" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Assets/livrocaixa_icone.ico"
+        Background="{StaticResource Brush.AppBackground}">
+    <StackPanel Margin="24">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <svgc:SvgViewbox Source="/Assets/Icons/calendar.svg" Width="24" Height="24" Margin="0,0,10,0" />
+            <TextBlock Text="Configurações" Style="{StaticResource Text.Title}" VerticalAlignment="Center" />
+        </StackPanel>
+        <TextBlock Text="Backup automático dos seus dados e segurança de acesso."
+                   Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="34,0,0,20" />
+
+        <CheckBox Content="Ativar backup automático" IsChecked="{Binding BackupAtivo}" Margin="0,0,0,16" />
+
+        <StackPanel Margin="0,0,0,16">
+            <TextBlock Text="Frequência" Style="{StaticResource Text.Field.Label}" />
+            <ComboBox Style="{StaticResource ComboBox.Default}"
+                      ItemsSource="{Binding FrequenciasDisponiveis}"
+                      DisplayMemberPath="Nome" SelectedValuePath="Valor"
+                      SelectedValue="{Binding FrequenciaSelecionada}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,0,0,16">
+            <TextBlock Text="Pasta de destino" Style="{StaticResource Text.Field.Label}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Style="{StaticResource TextBox.Default}" Margin="0,0,8,0"
+                         Text="{Binding PastaDestino, Mode=OneWay}" IsReadOnly="True" />
+                <Button Grid.Column="1" Content="Escolher..." Click="BotaoEscolherPasta_Click" Padding="10,6" />
+            </Grid>
+        </StackPanel>
+
+        <TextBlock Style="{StaticResource Text.Caption}" Margin="0,0,0,4">
+            <Run Text="Último backup: " />
+            <Run Text="{Binding UltimoBackupEm, StringFormat=dd/MM/yyyy HH:mm, Mode=OneWay, TargetNullValue='nunca'}" />
+        </TextBlock>
+        <TextBlock Style="{StaticResource Text.Caption}" Margin="0,0,0,16">
+            <Run Text="Próximo backup: " />
+            <Run Text="{Binding ProximoBackupExibicao, Mode=OneWay}" FontWeight="SemiBold" />
+        </TextBlock>
+
+        <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,4,0,16" />
+
+        <TextBlock Text="Segurança" Style="{StaticResource Text.Subtitle}" Margin="0,0,0,12" />
+
+        <StackPanel Margin="0,0,0,12">
+            <TextBlock Text="Bloquear o aplicativo" Style="{StaticResource Text.Field.Label}" />
+            <ComboBox Style="{StaticResource ComboBox.Default}"
+                      ItemsSource="{Binding OpcoesBloqueioInatividade}"
+                      DisplayMemberPath="Nome" SelectedValuePath="Minutos"
+                      SelectedValue="{Binding MinutosBloqueioInatividade}" />
+            <TextBlock Style="{StaticResource Text.Caption}" TextWrapping="Wrap" Margin="0,4,0,0"
+                       Text="Quando o computador fica sem uso por esse tempo, o app pede a senha de novo." />
+        </StackPanel>
+
+        <Grid Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Novo código de recuperação" Style="{StaticResource Button.Secondary}"
+                    Click="BotaoNovoCodigoRecuperacao_Click" />
+            <Button Grid.Column="2" Content="Termo de uso e privacidade" Style="{StaticResource Button.Secondary}"
+                    Click="BotaoTermoUso_Click" />
+        </Grid>
+
+        <TextBlock Text="{Binding MensagemErro}" Style="{StaticResource Text.Field.Error}" Margin="0,0,0,8"
+                   Visibility="{Binding MensagemErro, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+        <TextBlock Text="{Binding MensagemStatus}" Style="{StaticResource Text.Body}" Margin="0,0,0,8"
+                   Visibility="{Binding MensagemStatus, Converter={StaticResource TextoParaVisibilidadeConverter}}" />
+
+        <Grid Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Fazer backup agora" Style="{StaticResource Button.Secondary}"
+                    Command="{Binding FazerBackupAgoraCommand}"
+                    IsEnabled="{Binding EstaProcessando, Converter={StaticResource InverterBoolConverter}}" />
+            <Button Grid.Column="2" Content="Salvar" Style="{StaticResource Button.Primary}"
+                    Command="{Binding SalvarCommand}" />
+        </Grid>
+    </StackPanel>
+</Window>

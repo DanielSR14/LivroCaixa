@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa.Domain", "LivroCaixa.Domain\LivroCaixa.Domain.csproj", "{B09AC2A7-DB79-4210-998D-AFD74A87F303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa.Application", "LivroCaixa.Application\LivroCaixa.Application.csproj", "{29163129-8634-44CF-A188-62166139B12B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa.Infrastructure", "LivroCaixa.Infrastructure\LivroCaixa.Infrastructure.csproj", "{A5F4F4C7-3479-4C9B-B9CA-4A103A38447F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa.App", "LivroCaixa.App\LivroCaixa.App.csproj", "{BCFD4209-423A-40E2-9B22-F79D4C8FA916}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivroCaixa.Tests", "LivroCaixa.Tests\LivroCaixa.Tests.csproj", "{6B124001-C685-45B8-8B99-305E227CC144}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B09AC2A7-DB79-4210-998D-AFD74A87F303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09AC2A7-DB79-4210-998D-AFD74A87F303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09AC2A7-DB79-4210-998D-AFD74A87F303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09AC2A7-DB79-4210-998D-AFD74A87F303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29163129-8634-44CF-A188-62166139B12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29163129-8634-44CF-A188-62166139B12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29163129-8634-44CF-A188-62166139B12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29163129-8634-44CF-A188-62166139B12B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F4F4C7-3479-4C9B-B9CA-4A103A38447F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F4F4C7-3479-4C9B-B9CA-4A103A38447F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F4F4C7-3479-4C9B-B9CA-4A103A38447F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F4F4C7-3479-4C9B-B9CA-4A103A38447F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCFD4209-423A-40E2-9B22-F79D4C8FA916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCFD4209-423A-40E2-9B22-F79D4C8FA916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCFD4209-423A-40E2-9B22-F79D4C8FA916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCFD4209-423A-40E2-9B22-F79D4C8FA916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B124001-C685-45B8-8B99-305E227CC144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B124001-C685-45B8-8B99-305E227CC144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B124001-C685-45B8-8B99-305E227CC144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B124001-C685-45B8-8B99-305E227CC144}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
